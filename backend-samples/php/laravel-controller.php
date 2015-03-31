@@ -7,9 +7,11 @@ class SerieController extends BaseController
         $inputs = Input::all();
 
         $serie = Serie::find($inputs['pk']);
-
-        $serie->$inputs['name'] = $inputs['value'];
-
+        
+        if ($serie->isFillable(Input::get('name')) // && $serie->isValid()) {
+            $serie->setAttribute(Input::get('name'), Input::get('value'));
+        }
+        
         return $serie->save();
     }
 }
